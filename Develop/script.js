@@ -16,11 +16,11 @@ console.log();
 
 // Array of lowercase characters to be included in password
 var lowerCasedCharacters = "abcdefghijklmnopqrstuvwxyz";
-var lowerArr = lowerCasedCharacters.split("");
+var lowercaseArr = lowerCasedCharacters.split("");
 console.log();
 
 // Array of uppercase characters to be included in password
-var upperArr = lowerCasedCharacters.toUpperCase().split("");
+var uppercaseArr = lowerCasedCharacters.toUpperCase().split("");
 console.log();
 
 // Function to prompt user for password options
