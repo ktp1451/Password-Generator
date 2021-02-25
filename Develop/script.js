@@ -34,122 +34,112 @@ if (isNaN(passLength) === true) {
   return;
   }
 
-// Conditional statement to check if password length is at least 8 characters long. Prompts end if this evaluates false
-  while (passLength <8 || passLength >128) {
-    alert('Your password must be at least 8 characters but no longer than 128');
-    var passLength = (prompt('Password Character Length?'));
+// Conditional statement to check if password length is at least 8 characters long and no longer than 128. Prompts end if this evaluates false
+while (passLength <8 || passLength >128) {
+  alert('Your password must be at least 8 characters but no longer than 128');
+  var passLength = (prompt('Password Character Length?'));
   }
-  alert('Your password will be ' + passLength +)
+  alert('Your password will be ' + passLength + ' characters long.');
 
-//DOM elements
+// Variable to store boolean regarding the inclusion of special characters
+ var specialCharactersConfirm = (confirm('Include special characters? Ok = Yes or Cancel = No'));
 
-const resultEL = document.getElementById('result');
-const lengthEL = document.getElementById('length');
-const uppercaseEL = document.getElementById('uppercase');
-const lowercaseEL = document.getElementById('lowercase');
-const numbersEL = document.getElementById('numbers');
-const symbolsEL = document.getElementById('symbols');
-const generateEL = document.getElementById('generate');
-const clipboardEL = document.getElementById('clipboard');
+// Variable to store boolean regarding the inclusion of numeric characters
+  var numericCharactersConfirm = (confirm('Include numbers characters? Ok = Yes or Cancel = No'));
 
-const randomFunc = {
-  lower: getRandomLower,
-  upper: getRandomUpper,
-  number: getRandomNumber,
-  symbol: getRandomSymbol
+// Variable to store boolean regarding the inclusion of lowercase characters
+  var lowerCasedCharactersConfirm = (confirm('Include lowercase characters? Ok = Yes or Cancel = No'));
+ 
+// Variable to store boolean regarding the inclusion of uppercase characters
+  var upperCasedCharactersConfirm = (confirm('Include uppercase characters? Ok = Yes or Cancel = No'));
+
+// Conditional statement to check if user does not include any types of characters. Password generator ends if all four variables evaluate to false
+while (specialCharacters === false && numericCharactersConfirm === false && upperCasedCharactersConfirm === false) {
+  alert('Must select at least one character type');
+  var specialCharactersConfirm = (confirm('Include special characters? Ok = Yes or Cancel = No'));
+  var numericCharactersConfirm = (confirm('Include numbers characters? Ok = Yes or Cancel = No'));
+  var lowerCasedCharactersConfirm = (confirm('Include lowercase characters? Ok = Yes or Cancel = No'));
+  var upperCasedCharactersConfirm = (confirm('Include uppercase characters? Ok = Yes or Cancel = No'));
 }
 
-//generate event listen
+// Object to store user input variables
+ var passwordOptions = {
+   passLength, specialCharactersConfirm, numericCharactersConfirm, lowerCasedCharactersConfirm, upperCasedCharactersConfirm
+ };
 
-generateEL.addEventListener('click', () => {
-  const length = +lengthEL.value;
-  const hasLower = lowercaseEL.checked;
-  const hasUpper = uppercaseEL.checked;
-  const hasNumber = numbersEL.checked;
-  const hasSymbol = symbolsEL.checked;
+ // Return the options object as the exported value of this function
+ return passwordOptions;
+}
 
-  resultEl.innerText = generatePassword(
-    hasLower, 
-    hasUpper, 
-    hasNumber, 
-    hasSymbol);
-  console.log(typeof length);
-});
+// Function for getting a random element from an array
+function getRandomElement(arr) {
+  // Get a random number based on the length of the array parameter
+  var randIndex = Math.floor(Math.random() * arr.length);
+  // Use the random number made to get an element out of the array
+  var randElement = arr[randIndex];
+  // Return the element
+  return randElement;
+}
 
-//copy password to clipboard
-clipboardEL.addEventListener('click', () => {
-  const textarea = document.createElement('textarea');
-  const password = resultEL.innerText;
+// Function to generate password with user input
+function generatePassword() {
+  // Running the function to trigger the prompts and get the users answers back as an object
+  var options = getPasswordOptions();
+  // Array to store password as it's being concatenated from conditional statements below
+  var result = [];
 
-  if(!password) {
-    return;
-  }
+  // Array to store types of characters to include in password
+  var possibleCharacters = [];
 
-  textarea.value = password;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  textarea.remove();
-  alert('Password copied to clipboard');
-});
+  // Array to contain one of each type of chosen character to ensure each will be used
+  var guaranteedCharacters = [];
 
-//generate password function
-function generatePassword(lower, uppper, number, symbol, length){
-  //1. Init pw var
-  //2. filter out unchecked types
-  //3. loop over the length call generateor function for each type
-  //4. add final pw to the pw var adn return
-
-  let generatePassword = '';
-
-  const typesCount = lower + uppper + number + symbol;
-
-  console.log('typesCount: ', typesCount);
-
-  const typesArr = [{ lower }, { uppper }, { number }, { symbol }].filter
-  (
-    item => Object.values(item)[0]
-    );
-
-  console.log('typesArr: ', typesArr);
-
-  if(typesCount === 0){
-    return '';
+  // Conditional statement that adds array of special characters into array of possible characters based on user input
+  // Push new random special character to guaranteedCharacters to make at least one of the value is always included 
+  if (options.specialCharactersConfirm === true) {
+    result = result.concat(specialArr)
   }
 
-  for(let i = 0; i < length; i += typesCount){
-    typesArr.forEach(type => {
-      const funcName = Object.keys(type)[0];
-      console.log('funcName; ', funcName);
-
-      generatedPassword += randomFunc[funcName]();
-    });
+  // Conditional statement that adds array of numeric characters into array of possible characters based on user input
+  // Push new random special character to guaranteedCharacters to make at least one of the value is always included 
+  if (options.numericCharactersConfirm === true) {
+    result = result.concat(numericArr)
   }
 
-  const finalPassword = generatePassword.slice(0, length);
+  // Conditional statement that adds array of lowercase characters into array of possible characters based on user input
+  // Push new random lower-cased character to guaranteedCharacters to make at least one of the value is always included 
+  if (options.lowerCasedCharactersConfirm === true) {
+    result = result.concat(lowercaseArr)
+  }
 
-  return finalPassword;
+  // Conditional statement that adds array of uppercase characters into array of possible characters based on user input
+  // Push new random upper-cased character to guaranteedCharacters to make at least one of the value is always included 
+  if (options.upperCasedCharactersConfirm === true) {
+    result = result.concat(uppercaseArr)
+  }
+  // For loop to iterate over the password length provided from the options object, selecting random indices from the array of possible characters and concatenating those characters into the result variable
+  var randomPasword = ""
+  for (var i = 0; i < options.passLength; i++) {
+    var randomPasword = randomPasword + getRandomElement(result);
+    //var possibleCharacter = getRandomElement(possibleCharacters);
+  }
+
+// For loop to iterate the guarenteed characters to overwrite the generated characters
+
+
+// Join the array to make it a singular string to return 
+  return randomPasword
 }
 
-//generator functions
+// Get references to the #generate element
+//var generateBtn = document.querySelector('#generate');
 
-function getRandomLower() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-}
-console.log(getRandomLower());
-
-function getRandomUpper() {
-  return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
-}
-console.log(getRandomUpper());
-
-function getRandomNumber() {
-  return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-}
-console.log(getRandomNumber());
-
-function getRandomSymbol() {
-  const symbols = '`~!@#$%^&*(){}[]+<>/,.-_=+:;';
-  return symbols[Math.floor(Math.random() * symbols.length)];
-}
-console.log(getRandomSymbol());
+// Write password to the #password input
+function writePassword() {
+  // Runs the function that will generate the password
+  var password = generatePassword();
+  // Selects on the HTML where the password is shown
+  var passwordText = document.querySelector('#password');
+  // Makes the value of the element the string generated from the generatePassword function
+  passwordText.value = password;
+};
