@@ -10,17 +10,17 @@ var specialArr = specialCharacters.split("");
 console.log();
 
 // Array of numeric characters to be included in password
-var numericCharacters = String.fromCharCode(Math.floor(Math.random() * 10) + 48);
-var numericArr = specialCharacters.split("");
+var numericCharacters = "0123456789";
+var numericArr = numericCharacters.split("");
 console.log();
 
 // Array of lowercase characters to be included in password
-var lowerCasedCharacters = String.fromCharCode(Math.floor(Math.random() * 26) + 97);
-var lowerArr = specialCharacters.split("");
+var lowerCasedCharacters = "abcdefghijklmnopqrstuvwxyz";
+var lowerArr = lowerCasedCharacters.split("");
 console.log();
 
 // Array of uppercase characters to be included in password
-var upperCasedCharacters = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+var upperArr = lowerCasedCharacters.toUpperCase().split("");
 console.log();
 
 // Function to prompt user for password options
